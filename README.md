@@ -36,7 +36,7 @@ The system has 4 core responsibilities:
         
 4.  **Orchestration**
     
-    -   Sync sidebar ↔ map
+    -   Sync Control Panal ↔ map
         
     -   Handle user interactions
 
