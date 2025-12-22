@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={tajawal.variable}>
+    <html lang="ar" dir="rtl" className={tajawal.className}>
       <body className="font-tajawal antialiased">
         <div className="flex">
           <Sidebar />

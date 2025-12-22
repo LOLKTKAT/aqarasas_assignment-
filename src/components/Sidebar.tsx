@@ -13,19 +13,19 @@ function NavList({
   onActivate: (id: number) => void;
 }) {
   return (
-    <ul className={`flex flex-col gap-1 antialiased`}>
+    <ul className={`flex flex-col gap-2 antialiased`}>
       {items.map((item) => {
         const IconComponent = item.icon;
         return (
           <li
-            className={`cursor-pointer flex gap-3 items-center p-2 rounded-lg transition-all duration-200 ease-in-out transform hover:translate-x-1 hover:scale-[1.01] ${
+            className={`cursor-pointer flex gap-3 items-center p-3 rounded-xl transition-all duration-200 ease-in-out transform hover:translate-x-1 hover:scale-[1.01] ${
               active == item.id ? "bg-white/10" : "hover:bg-white/5"
             }`}
             key={item.id}
             onClick={() => onActivate(item.id)}
           >
-            <IconComponent size={20} />
-            <p className="text-[14px]">{item.title}</p>
+            <IconComponent size={24} />
+            <p className="text-[16px]">{item.title}</p>
           </li>
         );
       })}
@@ -87,7 +87,7 @@ export default function Sidebar() {
         </div>
         <div className="h-px w-full bg-white/10 my-2" />
         <div className="flex items-center p-5 justify-between cursor-pointer">
-          <div className="text-[14px]">
+          <div className="text-[16px]">
             <p>أحمد</p>
             <p>Ahmad@gmail.com</p>
           </div>
