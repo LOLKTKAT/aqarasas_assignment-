@@ -22,11 +22,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" className={tajawal.className}>
-      <body className="font-tajawal antialiased">
-        <div className="flex">
-          <Sidebar />
-          <main>{children}</main>
-        </div>
+      <body className="antialiased">
+        <main>
+          <div className="flex">
+            <Sidebar />
+            {children}
+          </div>
+        </main>
       </body>
     </html>
   );
