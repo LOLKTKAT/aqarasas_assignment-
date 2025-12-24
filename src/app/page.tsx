@@ -1,6 +1,5 @@
 import Filter from "@/components/feature/Filter";
 import Map from "@/components/feature/Map";
-import "./globals.css";
 
 const page = () => {
   return (
