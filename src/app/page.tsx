@@ -1,7 +1,12 @@
+import Filter from "@/components/feature/Filter";
 import React from "react";
 
-function page() {
-  return <div></div>;
-}
+const page = () => {
+  return (
+    <div>
+      <Filter />
+    </div>
+  );
+};
 
 export default page;
