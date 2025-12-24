@@ -2,6 +2,7 @@
 import { sideBarData } from "@/constans/sidebarData";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { ScrollArea } from "../ui/scroll-area";
 
 function NavList({
   items,
@@ -60,8 +61,8 @@ export default function Sidebar() {
       )}
 
       {/* Sidebar */}
-      <div
-        className={`text-text-primary-dark font-medium bg-primary w-fit h-svh overflow-y-scroll fixed lg:relative z-40 transition-transform duration-300 ease-in-out ${
+      <ScrollArea
+        className={`text-text-primary-dark font-medium bg-primary w-fit h-svh  fixed lg:relative z-40 transition-transform duration-300 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"
         }`}
       >
@@ -95,7 +96,7 @@ export default function Sidebar() {
             <ChevronDown size={16} />
           </div>
         </div>
-      </div>
+      </ScrollArea>
     </div>
   );
 }

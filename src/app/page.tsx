@@ -1,10 +1,9 @@
 import Filter from "@/components/feature/Filter";
-import React from "react";
 
 const page = () => {
   return (
     <div>
-      <Filter />
+      <Filter className="absolute end-1 top-1" />
     </div>
   );
 };

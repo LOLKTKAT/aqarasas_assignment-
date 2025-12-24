@@ -11,7 +11,8 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
+import React, { useState } from "react";
+import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
 import {
   Accordion,
@@ -20,7 +21,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-export default function Filter() {
+type FilterProps = React.ComponentPropsWithoutRef<"div">;
+
+const Filter = React.forwardRef<HTMLDivElement, FilterProps>(function Filter(
+  { className, dir, ...props },
+  ref
+) {
   const [rangesValues, setRangesValues] = useState<[number, number]>([
     0, 25000,
   ]);
@@ -67,8 +73,13 @@ export default function Filter() {
 
   return (
     <div
-      dir="rtl"
-      className="text-foreground bg-background/90 w-[331px] m-3 shadow-xl border border-gray-soft p-4 gap-4 flex flex-col rounded-lg"
+      ref={ref}
+      dir={dir ?? "rtl"}
+      {...props}
+      className={cn(
+        "text-foreground bg-background/90 w-[331px] m-3 shadow-xl border border-gray-soft p-4 gap-4 flex flex-col rounded-lg",
+        className
+      )}
     >
       <div className="flex justify-between ">
         <Tabs defaultValue="account" className="w-full ">
@@ -305,4 +316,8 @@ export default function Filter() {
       </div>
     </div>
   );
-}
+});
+
+Filter.displayName = "Filter";
+
+export default Filter;
