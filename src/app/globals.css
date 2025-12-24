@@ -6,6 +6,7 @@
 @theme {
   --color-primary: #1e1450;
   --color-text-primary: #111214;
+  --color-text-primary-dark: #fff;
   --color-text-secondary: #666666;
   --color-gray-main: #f3f4f6;
   --color-gray-soft: #f7f7fa;

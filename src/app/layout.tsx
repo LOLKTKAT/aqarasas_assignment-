@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Sidebar from "@/components/layout/Sidebar";
 import { Tajawal } from "next/font/google";
 
 // Configure the font
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" className={tajawal.className}>
       <body className="font-tajawal antialiased">
         <div className="flex">
+          <Sidebar />
           <main>{children}</main>
         </div>
       </body>
