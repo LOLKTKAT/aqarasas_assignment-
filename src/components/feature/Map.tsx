@@ -3,9 +3,8 @@
 import { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import useWindowWidth from "@/app/hooks/useWindowWidth";
-import properties from "@/constans/propertiesData";
 import { Layers, Minus, Plus } from "lucide-react";
+import { useFilterProperties } from "@/app/store/useFilterProperties";
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const MAP_STYLES = {
@@ -18,15 +17,33 @@ export default function Map() {
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const width = useWindowWidth();
-
   const [mapStyle, setMapStyle] = useState(MAP_STYLES.standard);
+  const filteredProperties = useFilterProperties(
+    (state) => state.filteredProperties
+  );
+
+  const propertiesToGeoJSON = (properties: any[]) => ({
+    type: "FeatureCollection",
+    features: properties.map((p) => ({
+      type: "Feature",
+      geometry: p.location,
+      properties: {
+        id: p.id,
+        title: p.title,
+        price: p.price,
+        area: p.area,
+        purpose: p.purpose,
+        district: p.district,
+        isLuxury: p.isLuxury,
+      },
+    })),
+  });
   const addPropertiesLayer = (map: mapboxgl.Map) => {
     if (map.getSource("properties")) return;
 
     map.addSource("properties", {
       type: "geojson",
-      data: propertiesToGeoJSON(properties),
+      data: propertiesToGeoJSON(filteredProperties),
     });
 
     map.addLayer({
@@ -90,7 +107,7 @@ export default function Map() {
       console.log("Map loaded successfully");
       setMapLoaded(true);
 
-      const geojson = propertiesToGeoJSON(properties);
+      const geojson = propertiesToGeoJSON(filteredProperties);
 
       // Add source
       map.current!.addSource("properties", {
@@ -164,24 +181,35 @@ export default function Map() {
     };
   }, []);
 
-  const propertiesToGeoJSON = (properties: any[]) => {
-    return {
-      type: "FeatureCollection" as const,
-      features: properties.map((p) => ({
-        type: "Feature" as const,
-        geometry: p.location,
-        properties: {
-          id: p.id,
-          title: p.title,
-          price: p.price,
-          area: p.area,
-          purpose: p.purpose,
-          district: p.district,
-          isLuxury: p.isLuxury,
-        },
-      })),
-    } as GeoJSON.FeatureCollection;
-  };
+  useEffect(() => {
+    // Only proceed if the map is loaded and the source exists
+    if (map.current && mapLoaded) {
+      const source = map.current.getSource(
+        "properties"
+      ) as mapboxgl.GeoJSONSource;
+
+      if (source) {
+        // Convert your new filtered list to GeoJSON
+        const newGeojson = propertiesToGeoJSON(filteredProperties);
+
+        // Update the data without redrawing the whole map
+        source.setData(newGeojson);
+
+        // OPTIONAL: Smoothly fly to the new points if the list changed
+        if (filteredProperties.length > 0) {
+          const firstProp = filteredProperties[0];
+          map.current.flyTo({
+            center: firstProp.location.coordinates as [number, number],
+            speed: 3,
+            curve: 1,
+            essential: true,
+          });
+        } else {
+          alert("لا يوجد شئ بهذه المواصفات");
+        }
+      }
+    }
+  }, [filteredProperties, mapLoaded]);
 
   return (
     <>

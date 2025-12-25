@@ -20,6 +20,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useFilterProperties } from "@/app/store/useFilterProperties";
 
 type FilterProps = React.ComponentPropsWithoutRef<"div">;
 
@@ -31,7 +32,7 @@ const Filter = React.forwardRef<HTMLDivElement, FilterProps>(function Filter(
     0, 25000,
   ]);
   const [priceValues, setPriceValues] = useState<[number, number]>([0, 25000]);
-
+  const { filters, setFilter } = useFilterProperties();
   // Date selects: initialize to real time (today)
   const today = new Date();
   const currentYear = today.getFullYear();
@@ -82,22 +83,32 @@ const Filter = React.forwardRef<HTMLDivElement, FilterProps>(function Filter(
       )}
     >
       <div className="flex justify-between ">
-        <Tabs defaultValue="account" className="w-full ">
+        <Tabs
+          defaultValue={filters.purpose}
+          onValueChange={(value) =>
+            setFilter("purpose", value as "rent" | "sale")
+          }
+          className="w-full"
+        >
           <TabsList varient="bordered" className="h-8">
-            <TabsTrigger value="account">إجار</TabsTrigger>
-            <TabsTrigger value="password">بيع</TabsTrigger>
+            <TabsTrigger value="rent">إيجار</TabsTrigger>
+            <TabsTrigger value="sale">بيع</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
       <div className="flex gap-1.5 justify-between">
-        <Select dir="rtl">
+        <Select
+          value={filters.city}
+          onValueChange={(value) => setFilter("city", value)}
+          dir="rtl"
+        >
           <SelectTrigger className="w-full rtl">
             <SelectValue placeholder="الرياض" />
           </SelectTrigger>
           <SelectContent className="bg-background">
-            <SelectItem value="light">الرياض</SelectItem>
-            <SelectItem value="dark">جدة</SelectItem>
-            <SelectItem value="system">مكة</SelectItem>
+            <SelectItem value="الرياض">الرياض</SelectItem>
+            <SelectItem value="جدة">جدة</SelectItem>
+            <SelectItem value="الدمام">الدمام</SelectItem>
           </SelectContent>
         </Select>
         <Select dir="rtl">
@@ -113,12 +124,16 @@ const Filter = React.forwardRef<HTMLDivElement, FilterProps>(function Filter(
       </div>
       <div>
         <div>المدة</div>
-        <Tabs defaultValue="24-hours" className="w-full ">
+        <Tabs
+          defaultValue={String(filters.duration)}
+          onValueChange={(value) => setFilter("duration", Number(value))}
+          className="w-full"
+        >
           <TabsList varient="faded" className="h-8 text-xs">
-            <TabsTrigger value="24-hours">آخر ٢٤ ساعة</TabsTrigger>
-            <TabsTrigger value="3-days">آخر ٣ أيام</TabsTrigger>
-            <TabsTrigger value="last-months">آخر شهر</TabsTrigger>
-            <TabsTrigger value="3-months">آخر ٣ أشهر</TabsTrigger>
+            <TabsTrigger value="24">آخر ٢٤ ساعة</TabsTrigger>
+            <TabsTrigger value="72">آخر ٣ أيام</TabsTrigger>
+            <TabsTrigger value="790">آخر شهر</TabsTrigger>
+            <TabsTrigger value="2700">آخر ٣ أشهر</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>

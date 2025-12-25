@@ -25,7 +25,7 @@ export type Property = {
   propertyType: "apartment" | "villa" | "office";
 
   listedAt: string;
-  rentalDuration?: "hour" | "day" | "month" | "year";
+  duration: number; // day | 3 days | month | 3 months in hours
 
   isLuxury: boolean;
 };

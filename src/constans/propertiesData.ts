@@ -19,7 +19,7 @@ const properties: Property[] = [
     bathrooms: 2,
     propertyType: "apartment",
     listedAt: "2025-01-20",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -36,6 +36,7 @@ const properties: Property[] = [
     description: "فيلا فاخرة بتصميم عصري",
     area: 420,
     price: 2500000,
+    duration: 730,
     bedrooms: 5,
     bathrooms: 6,
     propertyType: "villa",
@@ -60,7 +61,7 @@ const properties: Property[] = [
     bathrooms: 1,
     propertyType: "office",
     listedAt: "2025-02-18",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -81,7 +82,7 @@ const properties: Property[] = [
     bathrooms: 3,
     propertyType: "apartment",
     listedAt: "2025-03-01",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -99,6 +100,7 @@ const properties: Property[] = [
     area: 300,
     price: 1350000,
     bedrooms: 4,
+    duration: 72,
     bathrooms: 4,
     propertyType: "villa",
     listedAt: "2025-01-28",
@@ -122,7 +124,7 @@ const properties: Property[] = [
     bathrooms: 2,
     propertyType: "apartment",
     listedAt: "2025-02-12",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -141,6 +143,7 @@ const properties: Property[] = [
     price: 980000,
     bedrooms: 3,
     bathrooms: 3,
+    duration: 24,
     propertyType: "apartment",
     listedAt: "2025-02-22",
     isLuxury: true,
@@ -163,7 +166,7 @@ const properties: Property[] = [
     bathrooms: 2,
     propertyType: "office",
     listedAt: "2025-03-05",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -182,6 +185,7 @@ const properties: Property[] = [
     price: 1650000,
     bedrooms: 4,
     bathrooms: 5,
+    duration: 72,
     propertyType: "villa",
     listedAt: "2025-01-15",
     isLuxury: false,
@@ -204,7 +208,7 @@ const properties: Property[] = [
     bathrooms: 4,
     propertyType: "apartment",
     listedAt: "2025-03-10",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   // RIYADH
@@ -223,7 +227,7 @@ const properties: Property[] = [
     bathrooms: 4,
     propertyType: "villa",
     listedAt: "2025-03-12",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -241,7 +245,7 @@ const properties: Property[] = [
     bathrooms: 1,
     propertyType: "apartment",
     listedAt: "2025-03-14",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -259,7 +263,7 @@ const properties: Property[] = [
     bathrooms: 3,
     propertyType: "apartment",
     listedAt: "2025-03-15",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -277,7 +281,7 @@ const properties: Property[] = [
     bathrooms: 5,
     propertyType: "villa",
     listedAt: "2025-03-16",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -295,7 +299,7 @@ const properties: Property[] = [
     bathrooms: 2,
     propertyType: "apartment",
     listedAt: "2025-03-18",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -313,7 +317,7 @@ const properties: Property[] = [
     bathrooms: 4,
     propertyType: "apartment",
     listedAt: "2025-03-20",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
 
@@ -333,7 +337,7 @@ const properties: Property[] = [
     bathrooms: 4,
     propertyType: "apartment",
     listedAt: "2025-03-21",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -351,7 +355,7 @@ const properties: Property[] = [
     bathrooms: 3,
     propertyType: "apartment",
     listedAt: "2025-03-22",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -369,7 +373,7 @@ const properties: Property[] = [
     bathrooms: 6,
     propertyType: "villa",
     listedAt: "2025-03-23",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -387,7 +391,7 @@ const properties: Property[] = [
     bathrooms: 2,
     propertyType: "apartment",
     listedAt: "2025-03-24",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -405,7 +409,7 @@ const properties: Property[] = [
     bathrooms: 3,
     propertyType: "apartment",
     listedAt: "2025-03-25",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -423,7 +427,7 @@ const properties: Property[] = [
     bathrooms: 4,
     propertyType: "apartment",
     listedAt: "2025-03-26",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -441,7 +445,7 @@ const properties: Property[] = [
     bathrooms: 1,
     propertyType: "apartment",
     listedAt: "2025-03-27",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
 
@@ -461,7 +465,7 @@ const properties: Property[] = [
     bathrooms: 3,
     propertyType: "apartment",
     listedAt: "2025-03-28",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -479,7 +483,7 @@ const properties: Property[] = [
     bathrooms: 5,
     propertyType: "villa",
     listedAt: "2025-03-29",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -497,7 +501,7 @@ const properties: Property[] = [
     bathrooms: 2,
     propertyType: "apartment",
     listedAt: "2025-03-30",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -515,7 +519,7 @@ const properties: Property[] = [
     bathrooms: 3,
     propertyType: "apartment",
     listedAt: "2025-03-31",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -533,7 +537,7 @@ const properties: Property[] = [
     bathrooms: 2,
     propertyType: "apartment",
     listedAt: "2025-04-01",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -551,7 +555,7 @@ const properties: Property[] = [
     bathrooms: 4,
     propertyType: "villa",
     listedAt: "2025-04-02",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -569,7 +573,7 @@ const properties: Property[] = [
     bathrooms: 3,
     propertyType: "apartment",
     listedAt: "2025-04-03",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -587,7 +591,7 @@ const properties: Property[] = [
     bathrooms: 2,
     propertyType: "apartment",
     listedAt: "2025-04-05",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -605,7 +609,7 @@ const properties: Property[] = [
     bathrooms: 4,
     propertyType: "villa",
     listedAt: "2025-04-06",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -623,7 +627,7 @@ const properties: Property[] = [
     bathrooms: 2,
     propertyType: "apartment",
     listedAt: "2025-04-07",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -641,7 +645,7 @@ const properties: Property[] = [
     bathrooms: 3,
     propertyType: "apartment",
     listedAt: "2025-04-08",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
 
@@ -661,7 +665,7 @@ const properties: Property[] = [
     bathrooms: 4,
     propertyType: "apartment",
     listedAt: "2025-04-09",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -679,7 +683,7 @@ const properties: Property[] = [
     bathrooms: 7,
     propertyType: "villa",
     listedAt: "2025-04-10",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -697,7 +701,7 @@ const properties: Property[] = [
     bathrooms: 4,
     propertyType: "apartment",
     listedAt: "2025-04-11",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -715,7 +719,7 @@ const properties: Property[] = [
     bathrooms: 2,
     propertyType: "apartment",
     listedAt: "2025-04-12",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
 
@@ -735,7 +739,7 @@ const properties: Property[] = [
     bathrooms: 3,
     propertyType: "apartment",
     listedAt: "2025-04-13",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -753,7 +757,7 @@ const properties: Property[] = [
     bathrooms: 1,
     propertyType: "apartment",
     listedAt: "2025-04-14",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -771,7 +775,7 @@ const properties: Property[] = [
     bathrooms: 5,
     propertyType: "villa",
     listedAt: "2025-04-15",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -789,7 +793,7 @@ const properties: Property[] = [
     bathrooms: 3,
     propertyType: "villa",
     listedAt: "2025-04-16",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -807,7 +811,7 @@ const properties: Property[] = [
     bathrooms: 3,
     propertyType: "apartment",
     listedAt: "2025-04-17",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -825,7 +829,7 @@ const properties: Property[] = [
     bathrooms: 4,
     propertyType: "villa",
     listedAt: "2025-04-18",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -843,7 +847,7 @@ const properties: Property[] = [
     bathrooms: 2,
     propertyType: "apartment",
     listedAt: "2025-04-19",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -861,7 +865,7 @@ const properties: Property[] = [
     bathrooms: 3,
     propertyType: "apartment",
     listedAt: "2025-04-20",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -879,7 +883,7 @@ const properties: Property[] = [
     bathrooms: 6,
     propertyType: "apartment",
     listedAt: "2025-04-21",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -897,7 +901,7 @@ const properties: Property[] = [
     bathrooms: 2,
     propertyType: "apartment",
     listedAt: "2025-04-22",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
   {
@@ -915,7 +919,7 @@ const properties: Property[] = [
     bathrooms: 3,
     propertyType: "apartment",
     listedAt: "2025-04-23",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: true,
   },
   {
@@ -933,7 +937,7 @@ const properties: Property[] = [
     bathrooms: 3,
     propertyType: "apartment",
     listedAt: "2025-04-24",
-    rentalDuration: "month",
+    duration: 730,
     isLuxury: false,
   },
 ];
