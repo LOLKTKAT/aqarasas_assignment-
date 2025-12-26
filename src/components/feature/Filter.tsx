@@ -56,7 +56,7 @@ const Filter = React.forwardRef<HTMLDivElement, FilterProps>(function Filter(
         dir={dir ?? "rtl"}
         {...props}
         className={cn(
-          "hidden md:flex  text-foreground transition-transform z-10 bg-background/90 w-[331px] m-3 shadow-xl border border-gray-200 p-4 gap-4 flex-col rounded-lg",
+          "hidden md:flex max-h-[calc(100vh-24px)] no-scrollbar overflow-y-auto text-foreground transition-transform z-10 bg-background/90 w-[331px] m-3 shadow-xl border border-gray-200 p-4 gap-4 flex-col rounded-lg",
           className
         )}
       >
@@ -64,7 +64,7 @@ const Filter = React.forwardRef<HTMLDivElement, FilterProps>(function Filter(
       </div>
 
       {/* Mobile Filter Button & Drawer - Hidden on desktop */}
-      <div className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
+      <div className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-10">
         <Drawer open={open} onOpenChange={setOpen}>
           <DrawerTrigger asChild>
             <button className="rounded-full text-primary text-lg bg-background flex gap-1 p-4">
