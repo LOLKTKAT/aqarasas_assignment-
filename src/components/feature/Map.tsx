@@ -5,6 +5,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Layers, Minus, Plus } from "lucide-react";
 import { useFilterProperties } from "@/app/store/useFilterProperties";
+import { propertiesToGeoJSON } from "@/lib/propertyUtils";
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const MAP_STYLES = {
@@ -22,28 +23,12 @@ export default function Map() {
     (state) => state.filteredProperties
   );
 
-  const propertiesToGeoJSON = (properties: any[]) => ({
-    type: "FeatureCollection",
-    features: properties.map((p) => ({
-      type: "Feature",
-      geometry: p.location,
-      properties: {
-        id: p.id,
-        title: p.title,
-        price: p.price,
-        area: p.area,
-        purpose: p.purpose,
-        district: p.district,
-        isLuxury: p.isLuxury,
-      },
-    })),
-  });
   const addPropertiesLayer = (map: mapboxgl.Map) => {
     if (map.getSource("properties")) return;
 
     map.addSource("properties", {
       type: "geojson",
-      data: propertiesToGeoJSON(filteredProperties),
+      data: propertiesToGeoJSON(filteredProperties)
     });
 
     map.addLayer({
@@ -204,11 +189,10 @@ export default function Map() {
             curve: 1,
             essential: true,
           });
-        } else {
-          alert("لا يوجد شئ بهذه المواصفات");
         }
       }
     }
+    console.log(filteredProperties);
   }, [filteredProperties, mapLoaded]);
 
   return (

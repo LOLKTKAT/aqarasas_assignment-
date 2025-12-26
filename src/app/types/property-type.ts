@@ -27,5 +27,5 @@ export type Property = {
   listedAt: string;
   duration: number; // day | 3 days | month | 3 months in hours
 
-  isLuxury: boolean;
+  isRadical: boolean;
 };
