@@ -18,6 +18,7 @@ interface TabsProps {
   defaultValue: string;
   children: ReactNode;
   className?: string;
+  onValueChange?: (value: string) => void;
 }
 
 interface TabsListProps {
@@ -52,11 +53,18 @@ export const Tabs: React.FC<TabsProps> = ({
   defaultValue,
   children,
   className = "",
+  onValueChange, // Destructure this
 }) => {
   const [activeTab, setActiveTab] = useState<string>(defaultValue);
 
+  // Create a wrapper function for setActiveTab
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    if (onValueChange) onValueChange(value); // Fire the callback
+  };
+
   return (
-    <TabsContext.Provider value={{ activeTab, setActiveTab }}>
+    <TabsContext.Provider value={{ activeTab, setActiveTab: handleTabChange }}>
       <div className={className}>{children}</div>
     </TabsContext.Provider>
   );
