@@ -43,7 +43,9 @@ const Filter = React.forwardRef<HTMLDivElement, FilterProps>(function Filter(
     (state) => state.filteredProperties
   );
   const uniqueCities = getUniqueCities();
-  const districtsForSelectedCity = getDistricts(filters.city);
+  // Provide a default city if none is selected
+  const selectedCity = filters.city || uniqueCities[0] || "";
+  const districtsForSelectedCity = getDistricts(selectedCity) || [];
   // Date selects: initialize to real time (today)
   const today = new Date();
   const currentYear = today.getFullYear();
@@ -110,8 +112,12 @@ const Filter = React.forwardRef<HTMLDivElement, FilterProps>(function Filter(
       </div>
       <div className="flex gap-1.5 justify-between">
         <Select
-          value={filters.city ?? "الرياض  "}
-          onValueChange={(value) => setFilter("city", value)}
+          value={selectedCity}
+          onValueChange={(value) => {
+            setFilter("city", value);
+            // Reset district when city changes
+            setFilter("district", null);
+          }}
           dir="rtl"
         >
           <SelectTrigger className="w-full rtl">
@@ -138,11 +144,17 @@ const Filter = React.forwardRef<HTMLDivElement, FilterProps>(function Filter(
           </SelectTrigger>
           <SelectContent className="bg-background">
             <SelectItem value="all">الكل</SelectItem>
-            {districtsForSelectedCity.map((district) => (
-              <SelectItem key={district} value={district}>
-                {district}
+            {districtsForSelectedCity.length > 0 ? (
+              districtsForSelectedCity.map((district) => (
+                <SelectItem key={district} value={district}>
+                  {district}
+                </SelectItem>
+              ))
+            ) : (
+              <SelectItem value="" disabled>
+                لا توجد أحياء متاحة
               </SelectItem>
-            ))}
+            )}
           </SelectContent>
         </Select>
       </div>

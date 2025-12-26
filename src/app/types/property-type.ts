@@ -29,3 +29,25 @@ export type Property = {
 
   isRadical: boolean;
 };
+
+interface GeoJSONFeature {
+  type: "Feature";
+  geometry: {
+    type: "Point";
+    coordinates: [number, number];
+  };
+  properties: {
+    id: string;
+    title: string;
+    price: number;
+    area: number;
+    purpose: string;
+    district: string;
+    isLuxury: boolean;
+  };
+}
+
+export interface GeoJSONFeatureCollection {
+  type: "FeatureCollection";
+  features: GeoJSONFeature[];
+}

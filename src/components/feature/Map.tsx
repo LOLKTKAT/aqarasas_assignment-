@@ -5,7 +5,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Layers, Minus, Plus } from "lucide-react";
 import { useFilterProperties } from "@/app/store/useFilterProperties";
-import { propertiesToGeoJSON } from "@/lib/propertyUtils";
+import { GeoJSONFeatureCollection, Property } from "@/app/types/property-type";
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const MAP_STYLES = {
@@ -23,12 +23,33 @@ export default function Map() {
     (state) => state.filteredProperties
   );
 
+ function propertiesToGeoJSON(properties: Property[]): GeoJSONFeatureCollection {
+  return {
+    type: "FeatureCollection",
+    features: properties.map((p) => ({
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [p.location.coordinates[1], p.location.coordinates[0]], // [lng, lat] 
+      },
+      properties: {
+        id: p.id,
+        title: p.title,
+        price: p.price,
+        area: p.area,
+        purpose: p.purpose,
+        district: p.district,
+        isLuxury: p.isRadical,
+      },
+    })),
+  };
+}
   const addPropertiesLayer = (map: mapboxgl.Map) => {
     if (map.getSource("properties")) return;
 
     map.addSource("properties", {
       type: "geojson",
-      data: propertiesToGeoJSON(filteredProperties)
+      data: propertiesToGeoJSON(filteredProperties),
     });
 
     map.addLayer({
