@@ -10,7 +10,6 @@ import {
   ChevronLeft,
   ChevronsLeft,
   ChevronsRight,
-  LucideIcon,
   Plus,
   Minus,
   Box,
@@ -21,17 +20,15 @@ import {
   ShoppingBag,
 } from "lucide-react";
 
-// --- Interfaces ---
-
 interface SubItem {
   id: string;
   label: string;
-  icon: LucideIcon;
+  icon: React.ElementType;
 }
 
 interface MenuItem {
   id: string;
-  icon: LucideIcon;
+  icon: React.ElementType;
   label: string;
   subItems?: SubItem[];
 }
@@ -45,8 +42,6 @@ interface SidebarItemProps {
   toggleMenu: (id: string) => void;
 }
 
-// --- Components ---
-
 const SidebarItem: React.FC<SidebarItemProps> = ({
   item,
   collapsed,
@@ -59,18 +54,13 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   const isExpanded = expandedMenus[id];
   const hasSubItems = subItems && subItems.length > 0;
 
-  // Check if any child of this item is currently active
   const isChildActive = subItems?.some((sub) => sub.id === activeId);
 
-  // The Parent is "Active" (Highlighted) if:
-  // 1. It is the exact active ID (for items with no children)
-  // 2. OR It has children AND (It is expanded OR a child is active)
   const isParentActive =
     activeId === id || (hasSubItems && (isExpanded || isChildActive));
 
   return (
     <div className="w-full mb-1">
-      {/* Main Item */}
       <div
         onClick={() => {
           if (hasSubItems && !collapsed) {
@@ -130,7 +120,6 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         )}
       </div>
 
-      {/* Accordion Sub-items Container */}
       {!collapsed && hasSubItems && isExpanded && (
         <div className="mt-1 bg-transparent overflow-hidden ">
           {subItems.map((sub) => {
@@ -166,6 +155,7 @@ const App: React.FC = () => {
   const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({
     services: true,
   });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   const toggleMenu = (id: string): void => {
     setExpandedMenus((prev) => ({
@@ -199,14 +189,94 @@ const App: React.FC = () => {
       className="flex h-screen bg-slate-50 font-sans selection:bg-blue-500/30"
       dir="rtl"
     >
-      {/* Sidebar Container */}
+      {/* Mobile Top Nav */}
+      <nav className="md:hidden fixed top-0 left-0 right-0 z-50 bg-[#2d1b69] text-white border-b border-white/5 shadow-2xl">
+        <div className="flex items-center justify-between px-4 py-3">
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2"
+          >
+            <div className="w-6 h-5 flex flex-col justify-between">
+              <span
+                className={`block h-0.5 w-full bg-white transition-all ${
+                  isMobileMenuOpen ? "rotate-45 translate-y-2" : ""
+                }`}
+              ></span>
+              <span
+                className={`block h-0.5 w-full bg-white transition-all ${
+                  isMobileMenuOpen ? "opacity-0" : ""
+                }`}
+              ></span>
+              <span
+                className={`block h-0.5 w-full bg-white transition-all ${
+                  isMobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
+                }`}
+              ></span>
+            </div>
+          </button>
+          <img
+            src="/aqarsas-white-logo.png"
+            className="w-[48px] h-auto"
+            alt="aqarsas-logo"
+          />
+        </div>
+
+        {isMobileMenuOpen && (
+          <div className="bg-[#2d1b69] no-scrollbar z-100 border-t border-white/5 max-h-[calc(100vh-60px)] overflow-y-auto">
+            <div className="px-4 py-4">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2 bg-white rounded-sm px-2 py-1">
+                  <span className="text-xs font-normal text-black">
+                    غير مسجل
+                  </span>
+                </div>
+                <button className="flex items-center gap-2 cursor-pointer text-sky-400 text-[14px]">
+                  <Globe size={14} />
+                  <span>English</span>
+                </button>
+              </div>
+
+              <div className="flex flex-col w-full text-start mb-3">
+                <span className="text-sky-400 font-bold">أهلا بك،</span>
+                <span className="text-white font-bold">
+                  سجل الآن في العضوية
+                </span>
+              </div>
+
+              <div className="w-full h-px bg-white/10 my-3"></div>
+
+              {menuItems.map((item) => (
+                <SidebarItem
+                  key={item.id}
+                  item={item}
+                  collapsed={false}
+                  activeId={activeId}
+                  setActiveId={setActiveId}
+                  expandedMenus={expandedMenus}
+                  toggleMenu={toggleMenu}
+                />
+              ))}
+
+              <div className="my-4">
+                <div className="flex items-center gap-3 p-3.5 bg-sky-400/10 text-sky-400 cursor-pointer px-5">
+                  <LogIn size={20} strokeWidth={2.5} />
+                  <span className="font-bold text-sm tracking-wide">
+                    تسجيل الدخول
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* Desktop Sidebar Container */}
       <aside
         className={`
-          relative flex flex-col  bg-primary text-white ease-in-out border-l border-white/5 shadow-2xl
+          hidden md:flex relative flex-col no-scrollbar bg-[#2d1b69] text-white ease-in-out border-l border-white/5 shadow-2xl
           ${isCollapsed ? "w-30" : "w-65"}
         `}
       >
-        {/* Toggle Button */}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
           className={`
@@ -226,7 +296,6 @@ const App: React.FC = () => {
           )}
         </button>
 
-        {/* Logo Section */}
         <div className="flex flex-col items-center pt-10 pb-6 px-6">
           <div className="flex w-full items-center gap-3 mb-8">
             <img
@@ -261,7 +330,6 @@ const App: React.FC = () => {
             </div>
           )}
           <div className="w-full h-px bg-white/10 my-3"></div>
-          {/* Navigation Items */}
           <div className="">
             {menuItems.map((item) => (
               <SidebarItem
@@ -275,7 +343,6 @@ const App: React.FC = () => {
               />
             ))}
           </div>
-          {/* Footer / Login */}
           <div className="my-8">
             <div
               className={`
@@ -292,7 +359,7 @@ const App: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="bg-primary h-8 w-full" />
+        <div className="bg-[#2d1b69] h-8 w-full" />
       </aside>
     </div>
   );
