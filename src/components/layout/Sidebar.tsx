@@ -194,26 +194,27 @@ const App: React.FC = () => {
         <div className="flex items-center justify-between px-4 py-3">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2"
+            className="relative cursor-pointer w-10 h-10 flex items-center justify-center"
           >
-            <div className="w-6 h-5 flex flex-col justify-between">
-              <span
-                className={`block h-0.5 w-full bg-white transition-all ${
-                  isMobileMenuOpen ? "rotate-45 translate-y-2" : ""
-                }`}
-              ></span>
-              <span
-                className={`block h-0.5 w-full bg-white transition-all ${
-                  isMobileMenuOpen ? "opacity-0" : ""
-                }`}
-              ></span>
-              <span
-                className={`block h-0.5 w-full bg-white transition-all ${
-                  isMobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
-                }`}
-              ></span>
-            </div>
+            <span
+              className={`absolute h-0.5 w-6 bg-white transition-transform duration-300 ${
+                isMobileMenuOpen ? "rotate-45" : "-translate-y-2"
+              }`}
+            />
+
+            <span
+              className={`absolute h-0.5 w-6 bg-white transition-opacity duration-300 ${
+                isMobileMenuOpen ? "opacity-0" : "opacity-100"
+              }`}
+            />
+
+            <span
+              className={`absolute h-0.5 w-6 bg-white transition-transform duration-300 ${
+                isMobileMenuOpen ? "-rotate-45" : "translate-y-2"
+              }`}
+            />
           </button>
+
           <img
             src="/aqarsas-white-logo.png"
             className="w-[48px] h-auto"
