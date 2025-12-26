@@ -23,27 +23,26 @@ export default function Map() {
     (state) => state.filteredProperties
   );
 
- function propertiesToGeoJSON(properties: Property[]): GeoJSONFeatureCollection {
-  return {
-    type: "FeatureCollection",
-    features: properties.map((p) => ({
-      type: "Feature",
-      geometry: {
-        type: "Point",
-        coordinates: [p.location.coordinates[1], p.location.coordinates[0]], // [lng, lat] 
-      },
-      properties: {
-        id: p.id,
-        title: p.title,
-        price: p.price,
-        area: p.area,
-        purpose: p.purpose,
-        district: p.district,
-        isLuxury: p.isRadical,
-      },
-    })),
-  };
-}
+  function propertiesToGeoJSON(
+    properties: Property[]
+  ): GeoJSONFeatureCollection {
+    return {
+      type: "FeatureCollection",
+      features: properties.map((p) => ({
+        type: "Feature",
+        geometry: p.location,
+        properties: {
+          id: p.id,
+          title: p.title,
+          price: p.price,
+          area: p.area,
+          purpose: p.purpose,
+          district: p.district,
+          isLuxury: p.isRadical,
+        },
+      })),
+    };
+  }
   const addPropertiesLayer = (map: mapboxgl.Map) => {
     if (map.getSource("properties")) return;
 
@@ -213,7 +212,6 @@ export default function Map() {
         }
       }
     }
-    console.log(filteredProperties);
   }, [filteredProperties, mapLoaded]);
 
   return (
@@ -223,7 +221,7 @@ export default function Map() {
         ref={mapContainerRef}
         className={`h-full relative w-full`}
       />
-      <div className="absolute right-56 bottom-5  z-10 flex flex-col gap-3">
+      <div className="absolute right-5 lg:right-56 bottom-5  z-10 flex flex-col gap-3">
         {/* Zoom In */}
         <button
           onClick={zoomIn}

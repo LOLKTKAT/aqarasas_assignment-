@@ -1,0 +1,114 @@
+import { useFilterProperties } from "@/app/store/useFilterProperties";
+import { Input } from "@/components/ui/input";
+import { Slider } from "@/components/ui/slider";
+
+function RangesTabs() {
+  const filters = useFilterProperties((state) => state.filters);
+  const setRangeFilter = useFilterProperties((state) => state.setRangeFilter);
+
+  return (
+    <div dir="ltr">
+      <div>Ranges</div>
+      <div className="flex flex-col gap-3">
+        <Slider
+          label="Area (m²)"
+          value={filters.areaRange}
+          onChange={(val) =>
+            setRangeFilter("areaRange", val as [number, number])
+          }
+          min={0}
+          max={25000}
+          step={500}
+          showTooltip
+        />
+        <div className="flex gap-[52px] rounded-lg">
+          <Input
+            className="bg-secondary w-full rounded-lg px-3"
+            placeholder="0"
+            type="number"
+            min={0}
+            max={filters.areaRange[1]}
+            value={filters.areaRange[0]}
+            onChange={(e) => {
+              const val = Number(e.target.value);
+              const newRange: [number, number] = [
+                Math.min(filters.areaRange[1], Math.max(0, val)),
+                filters.areaRange[1],
+              ];
+              setRangeFilter("areaRange", newRange);
+            }}
+          />
+
+          <Input
+            className="bg-secondary w-full rounded-lg px-3"
+            placeholder="25000"
+            type="number"
+            min={filters.areaRange[0]}
+            max={25000}
+            value={filters.areaRange[1]}
+            onChange={(e) => {
+              const val = Number(e.target.value);
+              const newRange: [number, number] = [
+                filters.areaRange[0],
+                Math.max(filters.areaRange[0], Math.min(25000, val)),
+              ];
+              setRangeFilter("areaRange", newRange);
+            }}
+          />
+        </div>
+      </div>
+      <div dir="rtl" className="flex flex-col gap-3">
+        <Slider
+          label="السعر"
+          value={filters.priceRange}
+          onChange={(val) =>
+            setRangeFilter("priceRange", val as [number, number])
+          }
+          min={0}
+          max={10000000} // Adjust based on your max price
+          step={10000} // Adjust step as needed
+          showTooltip
+        />
+        <div dir="ltr" className="flex gap-[52px] rounded-lg">
+          {/* Lower Bound Input (priceRange[0]) */}
+          <Input
+            className="bg-secondary w-full rounded-lg px-3"
+            placeholder="0"
+            type="number"
+            min={0}
+            max={filters.priceRange[1]}
+            value={filters.priceRange[0]}
+            onChange={(e) => {
+              const val = Number(e.target.value);
+              const newRange: [number, number] = [
+                Math.min(filters.priceRange[1], Math.max(0, val)),
+                filters.priceRange[1],
+              ];
+              setRangeFilter("priceRange", newRange);
+            }}
+          />
+
+          {/* Upper Bound Input (priceRange[1]) */}
+          <Input
+            className="bg-secondary w-full rounded-lg px-3"
+            placeholder="10000000"
+            type="number"
+            min={filters.priceRange[0]}
+            max={10000000} // Adjust based on your max price
+            value={filters.priceRange[1]}
+            onChange={(e) => {
+              const val = Number(e.target.value);
+              const newRange: [number, number] = [
+                filters.priceRange[0],
+                Math.min(10000000, Math.max(filters.priceRange[0], val)),
+              ];
+              setRangeFilter("priceRange", newRange);
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default RangesTabs;

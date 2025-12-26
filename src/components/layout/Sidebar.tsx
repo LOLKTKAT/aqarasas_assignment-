@@ -62,8 +62,10 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <ScrollArea
-        className={`text-text-primary-dark font-medium bg-primary w-fit h-svh  fixed lg:relative z-40 transition-transform duration-300 ease-in-out ${
-          sidebarOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"
+        className={`text-text-primary-dark font-medium bg-primary lg:w-fit w-0 h-svh  fixed lg:relative z-40 transition-transform duration-300 ease-in-out ${
+          sidebarOpen
+            ? "translate-x-0 w-fit"
+            : "translate-x-full lg:translate-x-0"
         }`}
       >
         {/* Close Button inside Sidebar */}
