@@ -56,7 +56,7 @@ const Filter = React.forwardRef<HTMLDivElement, FilterProps>(function Filter(
         dir={dir ?? "rtl"}
         {...props}
         className={cn(
-          "hidden md:flex  text-foreground transition-transform z-10 bg-background/90 w-[331px] m-3 shadow-xl border border-gray-200 p-4 gap-4 flex-col rounded-lg",
+          "hidden md:flex max-h-[530px] no-scrollbar overflow-y-auto text-foreground transition-transform z-10 bg-background/90 w-[331px] m-3 shadow-xl border border-gray-200 p-4 gap-4 flex-col rounded-lg",
           className
         )}
       >

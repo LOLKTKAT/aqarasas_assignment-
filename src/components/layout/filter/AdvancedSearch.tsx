@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react"; // 1. Import useRef
 import {
   Select,
   SelectContent,
@@ -15,6 +15,9 @@ import {
 import { useFilterProperties } from "@/app/store/useFilterProperties";
 
 const AdvancedSearch = () => {
+  // 2. Create a ref for the container
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const [fromDay, setFromDay] = useState<string>("");
   const [fromMonth, setFromMonth] = useState<string>("");
   const [fromYear, setFromYear] = useState<string>("");
@@ -23,7 +26,7 @@ const AdvancedSearch = () => {
   const [toYear, setToYear] = useState<string>("");
   const setDateRange = useFilterProperties((state) => state.setDateRange);
 
-  // Date selects: initialize to real time (today)
+  // ... (Your existing Date logic remains unchanged) ...
   const today = new Date();
   const currentYear = today.getFullYear();
   const monthNames = [
@@ -49,7 +52,6 @@ const AdvancedSearch = () => {
     String(currentYear - 5 + i)
   );
 
-  // Helper to convert selections to Date
   const buildDate = (day: string, month: string, year: string): Date | null => {
     if (!day || !month || !year) return null;
     const monthIndex = monthNames.indexOf(month);
@@ -57,24 +59,40 @@ const AdvancedSearch = () => {
     return new Date(parseInt(year), monthIndex, parseInt(day));
   };
 
-  // Update store whenever date selections change
   useEffect(() => {
     const from = buildDate(fromDay, fromMonth, fromYear);
     const to = buildDate(toDay, toMonth, toYear);
     setDateRange(from, to);
   }, [fromDay, fromMonth, fromYear, toDay, toMonth, toYear, setDateRange]);
+
+  // 3. Helper function to handle scrolling
+  const handleScrollToBottom = () => {
+    // We use a small timeout to wait for the Accordion animation to expand
+    // otherwise it scrolls before the height has actually increased.
+    setTimeout(() => {
+      containerRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "end", // This aligns the bottom of the element with the bottom of the visible area
+      });
+    }, 200);
+  };
+
   return (
-    <div className="flex justify-between items-center">
+    <div ref={containerRef} className="flex justify-between items-center pb-2">
       <Accordion className="w-full" type="single" collapsible>
-        <AccordionItem value="item-1">
-          <AccordionTrigger>البحث المتقدم</AccordionTrigger>
-          <AccordionContent className="grid grid-cols-3 gap-1">
+        <AccordionItem value="item-1" className="border-none">
+          {/* 5. Add onClick to the Trigger */}
+          <AccordionTrigger onClick={handleScrollToBottom}>
+            البحث المتقدم
+          </AccordionTrigger>
+
+          <AccordionContent className="grid grid-cols-3 gap-1 pt-2">
             {/* FROM DATE */}
             <Select value={fromDay} onValueChange={setFromDay}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Day" />
               </SelectTrigger>
-              <SelectContent className="bg-background">
+              <SelectContent className="bg-background max-h-[200px]">
                 {days.map((day) => (
                   <SelectItem key={day} value={day}>
                     {day}
@@ -87,7 +105,7 @@ const AdvancedSearch = () => {
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Mo" />
               </SelectTrigger>
-              <SelectContent className="bg-background">
+              <SelectContent className="bg-background max-h-[200px]">
                 {monthNames.map((month) => (
                   <SelectItem key={month} value={month}>
                     {month}
@@ -100,7 +118,7 @@ const AdvancedSearch = () => {
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Year" />
               </SelectTrigger>
-              <SelectContent className="bg-background">
+              <SelectContent className="bg-background max-h-[200px]">
                 {years.map((year) => (
                   <SelectItem key={year} value={year}>
                     {year}
@@ -114,7 +132,7 @@ const AdvancedSearch = () => {
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Day" />
               </SelectTrigger>
-              <SelectContent className="bg-background">
+              <SelectContent className="bg-background max-h-[200px]">
                 {days.map((day) => (
                   <SelectItem key={day} value={day}>
                     {day}
@@ -127,7 +145,7 @@ const AdvancedSearch = () => {
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Mo" />
               </SelectTrigger>
-              <SelectContent className="bg-background">
+              <SelectContent className="bg-background max-h-[200px]">
                 {monthNames.map((month) => (
                   <SelectItem key={month} value={month}>
                     {month}
@@ -140,7 +158,7 @@ const AdvancedSearch = () => {
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Year" />
               </SelectTrigger>
-              <SelectContent className="bg-background">
+              <SelectContent className="bg-background max-h-[200px]">
                 {years.map((year) => (
                   <SelectItem key={year} value={year}>
                     {year}
