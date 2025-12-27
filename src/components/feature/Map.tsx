@@ -330,7 +330,7 @@ export default function Map() {
         </Alert>
       )}
       {!mapLoaded && (
-        <div className="absolute end-0 bottom-0 w-full lg:h-full h-[calc(100vh-64px)] flex flex-col gap-10 items-center justify-center bg-gray-100 z-50">
+        <div className="absolute end-0 bottom-0 w-full md:h-full h-[calc(100vh-64px)] flex flex-col gap-10 items-center justify-center bg-gray-100 z-50">
           <img
             src="/aqarsas-logo-glyph.png"
             alt="agarsas-logo"
