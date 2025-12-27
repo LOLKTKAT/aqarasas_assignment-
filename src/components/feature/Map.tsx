@@ -287,7 +287,7 @@ export default function Map() {
         className={`h-full relative w-full`}
       />
 
-      <div className="absolute right-5 bottom-5  z-10 flex flex-col gap-3">
+      <div className="fixed md:absolute right-5 bottom-5  z-10 flex flex-col gap-3">
         {/* Zoom In */}
         <button
           onClick={zoomIn}
