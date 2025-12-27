@@ -73,7 +73,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
           group flex items-center p-3 cursor-pointer 
           ${
             isParentActive
-              ? "bg-white/10 text-white shadow-lg"
+              ? "bg-white/10 text-white"
               : "text-slate-400 hover:bg-white/10 hover:text-white"
           }
           ${collapsed ? "justify-center" : "px-4"}
@@ -190,7 +190,7 @@ const App: React.FC = () => {
       dir="rtl"
     >
       {/* Mobile Top Nav */}
-      <nav className="md:hidden fixed top-0 left-0 right-0 z-50 bg-[#2d1b69] text-white border-b border-white/5 shadow-2xl">
+      <nav className="md:hidden fixed top-0 left-0 right-0 z-50 bg-primary text-white border-b border-white/5 shadow-2xl">
         <div className="flex items-center justify-between px-4 py-3">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -223,7 +223,7 @@ const App: React.FC = () => {
         </div>
 
         {isMobileMenuOpen && (
-          <div className="bg-[#2d1b69] no-scrollbar z-100 border-t border-white/5 h-svh overflow-y-auto pb-40">
+          <div className="bg-primary no-scrollbar z-100 border-t border-white/5 h-svh overflow-y-auto pb-40">
             <div className="px-4 py-4">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2 bg-white rounded-sm px-2 py-1">
@@ -274,7 +274,7 @@ const App: React.FC = () => {
       {/* Desktop Sidebar Container */}
       <aside
         className={`
-          hidden md:flex relative flex-col no-scrollbar bg-[#2d1b69] text-white ease-in-out border-l border-white/5 shadow-2xl
+          hidden md:flex relative flex-col no-scrollbar bg-primary text-white ease-in-out border-l border-white/5 shadow-2xl
           ${isCollapsed ? "w-30" : "w-65"}
         `}
       >
@@ -282,7 +282,7 @@ const App: React.FC = () => {
           onClick={() => setIsCollapsed(!isCollapsed)}
           className={`
             absolute cursor-pointer top-8 z-50 flex items-center justify-center 
-            size-10  shadow-lg 
+            size-10  
             ${
               isCollapsed
                 ? "left-0 text-black bg-[#1e145033] -translate-x-full rounded-e-2xl"
@@ -360,7 +360,7 @@ const App: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="bg-[#2d1b69] h-8 w-full" />
+        <div className="bg-primary h-8 w-full" />
       </aside>
     </div>
   );
