@@ -186,7 +186,7 @@ const App: React.FC = () => {
 
   return (
     <div
-      className="flex h-screen bg-slate-50 font-sans selection:bg-blue-500/30"
+      className="flex h-screen bg-slate-50  selection:bg-blue-500/30"
       dir="rtl"
     >
       {/* Mobile Top Nav */}
