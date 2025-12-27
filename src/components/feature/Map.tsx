@@ -19,6 +19,7 @@ export default function Map() {
   const map = useRef<mapboxgl.Map | null>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapStyle, setMapStyle] = useState(MAP_STYLES.standard);
+  const markersRef = useRef<mapboxgl.Marker[]>([]); // Track markers for cleanup
   const filteredProperties = useFilterProperties(
     (state) => state.filteredProperties
   );
@@ -69,16 +70,116 @@ export default function Map() {
     });
   };
 
+  // 1. Add this helper outside or inside your component to handle the single-color tooltip
+  const createMarkerElement = (property: Property) => {
+    const el = document.createElement("div");
+    el.className = "property-marker";
+
+    // Hardcoded to your primary brand color
+    const primaryColor = "#1e1450";
+
+    const formattedPrice = new Intl.NumberFormat("en-US", {
+      notation: "compact",
+      maximumFractionDigits: 1,
+    }).format(property.price);
+
+    el.innerHTML = `
+    <div style="
+      background-color: ${primaryColor};
+      color: white;
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 13px;
+      position: relative;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+      cursor: pointer;
+    ">
+      ${formattedPrice} SAR
+      <div style="
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid ${primaryColor};
+      "></div>
+    </div>
+  `;
+    return el;
+  };
+
+  const renderMarkers = () => {
+    if (!map.current) return;
+
+    // 1. Remove existing markers
+    markersRef.current.forEach((m) => m.remove());
+    markersRef.current = [];
+
+    // 2. Add new markers
+    filteredProperties.forEach((p) => {
+      const el = createMarkerElement(p);
+
+      const marker = new mapboxgl.Marker({ element: el })
+        .setLngLat(p.location.coordinates as [number, number])
+        .setPopup(
+          new mapboxgl.Popup({
+            offset: 30,
+            closeButton: false,
+            maxWidth: "280px",
+            className: "property-popup",
+          }).setHTML(`
+          <div style="overflow: hidden; border-radius: 12px; font-family: 'Inter', sans-serif;">
+            <div style="background: #f3f4f6; height: 120px; width: 100%; display: flex; align-items: center; justify-content: center; color: #9ca3af;">
+            </div>
+            
+            <div style="padding: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 4px;">
+                <h3 style="margin: 0; font-size: 16px; font-weight: 700; color: #111827; line-height: 1.2;">
+                  ${p.title}
+                </h3>
+              </div>
+              
+              <p style="margin: 0 0 8px 0; font-size: 13px; color: #6b7280;">
+                ${p.district}, Riyadh
+              </p>
+
+              <div style="display: flex; gap: 12px; margin-bottom: 12px; font-size: 12px; color: #374151;">
+                <span><strong>${p.area}</strong> m²</span>
+                <span><strong>${
+                  p.purpose === "sale" ? "For Sale" : "For Rent"
+                }</strong></span>
+              </div>
+
+              <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #f3f4f6; pt: 10px; margin-top: 8px; padding-top: 10px;">
+                <span style="font-size: 16px; font-weight: 800; color: #4f46e5;">
+                  ${p.price.toLocaleString()} <small style="font-size: 10px; font-weight: 400;">SAR</small>
+                </span>
+                <button style="background: #4f46e5; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer;">
+                  Details
+                </button>
+              </div>
+            </div>
+          </div>
+        `)
+        )
+        .addTo(map.current!);
+
+      markersRef.current.push(marker);
+    });
+  };
   const zoomIn = () => map.current?.zoomIn();
   const zoomOut = () => map.current?.zoomOut();
 
   const changeStyle = () => {
     if (!map.current) return;
-
     const styles = Object.values(MAP_STYLES);
     const currentIndex = styles.indexOf(mapStyle);
     const nextStyle = styles[(currentIndex + 1) % styles.length];
-
     setMapStyle(nextStyle);
     map.current.setStyle(nextStyle);
   };
@@ -139,27 +240,6 @@ export default function Map() {
       });
     });
 
-    map.current!.on("click", "properties-layer", (e) => {
-      const feature = e.features?.[0];
-      if (!feature) return;
-
-      const { title, price, district } = feature.properties as any;
-      const coordinates = (feature.geometry as any).coordinates.slice();
-
-      new mapboxgl.Popup()
-        .setLngLat(coordinates)
-        .setHTML(
-          `
-          <div style="font-family: sans-serif">
-            <strong>${title}</strong>
-            <p>${district}</p>
-            <p>${price.toLocaleString()} SAR</p>
-          </div>
-        `
-        )
-        .addTo(map.current!);
-    });
-
     map.current!.on("mouseenter", "properties-layer", () => {
       map.current!.getCanvas().style.cursor = "pointer";
     });
@@ -211,8 +291,23 @@ export default function Map() {
           });
         }
       }
+      if (mapLoaded) {
+        renderMarkers();
+
+        // Fly to results
+        if (filteredProperties.length > 0) {
+          map.current?.flyTo({
+            center: filteredProperties[0].location.coordinates as [
+              number,
+              number
+            ],
+            essential: true,
+            zoom: 10,
+          });
+        }
+      }
     }
-  }, [filteredProperties, mapLoaded]);
+  }, [filteredProperties, mapLoaded, mapStyle]);
 
   return (
     <>

@@ -5,7 +5,7 @@ function DurationTabs() {
   const setFilter = useFilterProperties((state) => state.setFilter);
   const filters = useFilterProperties((state) => state.filters);
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       <div>المدة</div>
       <Tabs
         defaultValue={String(filters.duration)}
