@@ -19,6 +19,12 @@ import {
   Lock,
   ShoppingBag,
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 interface SubItem {
   id: string;
@@ -53,103 +59,129 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   const { id, icon: Icon, label, subItems } = item;
   const isExpanded = expandedMenus[id];
   const hasSubItems = subItems && subItems.length > 0;
-
   const isChildActive = subItems?.some((sub) => sub.id === activeId);
-
   const isParentActive =
     activeId === id || (hasSubItems && (isExpanded || isChildActive));
 
   return (
-    <div className="w-full mb-1">
-      <div
-        onClick={() => {
-          if (hasSubItems && !collapsed) {
-            toggleMenu(id);
-          } else {
-            setActiveId(id);
-          }
-        }}
-        className={`
-          group flex items-center p-3 cursor-pointer 
-          ${
-            isParentActive
-              ? "bg-white/10 text-white"
-              : "text-slate-400 hover:bg-white/10 hover:text-white"
-          }
-          ${collapsed ? "justify-center" : "px-4"}
-        `}
-      >
-        <div
-          className={`${
-            isParentActive
-              ? "text-white"
-              : "text-slate-400 group-hover:text-white"
-          } `}
-        >
-          <Icon size={16} strokeWidth={2} />
-        </div>
-
-        {!collapsed && (
-          <>
-            <span
-              className={`ms-3 font-medium whitespace-nowrap ${
-                isParentActive ? "text-white" : ""
-              } ${hasSubItems ? "text-[16px]" : "text-[14px]"}`}
-            >
-              {label}
-            </span>
-
+    <TooltipProvider delayDuration={0}>
+      <div className="w-full mb-1">
+        <Tooltip shadow-sm>
+          {/* Only trigger tooltip if sidebar is collapsed */}
+          <TooltipTrigger asChild>
             <div
-              className={`mr-auto  ${
-                isParentActive
-                  ? "text-white"
-                  : "text-slate-500 group-hover:text-slate-300"
-              }`}
+              onClick={() => {
+                if (hasSubItems) {
+                  toggleMenu(id);
+                } else {
+                  setActiveId(id);
+                }
+              }}
+              className={`
+                group flex items-center p-3 cursor-pointer 
+                ${
+                  isParentActive
+                    ? "bg-white/10 text-white"
+                    : "text-slate-400 hover:bg-white/10 hover:text-white"
+                }
+                ${collapsed ? "justify-center" : "px-4"}
+              `}
             >
-              {hasSubItems ? (
-                isExpanded ? (
-                  <Minus size={16} strokeWidth={1.5} />
-                ) : (
-                  <Plus size={16} strokeWidth={1.5} />
-                )
-              ) : (
-                <ChevronLeft size={18} strokeWidth={1.5} />
+              <div
+                className={`${
+                  isParentActive
+                    ? "text-white"
+                    : "text-slate-400 group-hover:text-white"
+                }`}
+              >
+                <Icon size={16} strokeWidth={2} />
+              </div>
+
+              {!collapsed && (
+                <>
+                  <span
+                    className={`ms-3 font-medium whitespace-nowrap ${
+                      isParentActive ? "text-white" : ""
+                    } ${hasSubItems ? "text-[16px]" : "text-[14px]"}`}
+                  >
+                    {label}
+                  </span>
+                  <div
+                    className={`mr-auto ${
+                      isParentActive
+                        ? "text-white"
+                        : "text-slate-500 group-hover:text-slate-300"
+                    }`}
+                  >
+                    {hasSubItems ? (
+                      isExpanded ? (
+                        <Minus size={16} strokeWidth={1.5} />
+                      ) : (
+                        <Plus size={16} strokeWidth={1.5} />
+                      )
+                    ) : (
+                      <ChevronLeft size={18} strokeWidth={1.5} />
+                    )}
+                  </div>
+                </>
               )}
             </div>
-          </>
+          </TooltipTrigger>
+
+          {collapsed && (
+            <TooltipContent side="left" className="bg-primary text-white">
+              <p>{label}</p>
+            </TooltipContent>
+          )}
+        </Tooltip>
+
+        {/* Sub Items Logic */}
+        {hasSubItems && isExpanded && (
+          <div className="mt-1 bg-transparent overflow-hidden ">
+            {subItems.map((sub) => {
+              const isSubActive = activeId === sub.id;
+              const SubIcon = sub.icon;
+              return (
+                <Tooltip key={sub.id}>
+                  <TooltipTrigger asChild>
+                    <div
+                      onClick={() => setActiveId(sub.id)}
+                      className={`
+                        group/sub flex items-center py-2.5 my-0.5 text-[14px] cursor-pointer relative 
+                        ${collapsed ? "justify-center px-0" : "pr-4 pl-4"}
+                        ${
+                          isSubActive
+                            ? "text-white font-medium bg-white/10"
+                            : "text-slate-400 hover:text-slate-200 hover:bg-white/10"
+                        }
+                      `}
+                    >
+                      <SubIcon size={16} strokeWidth={2} />
+                      {!collapsed && (
+                        <span className="ms-3 whitespace-nowrap">
+                          {sub.label}
+                        </span>
+                      )}
+                    </div>
+                  </TooltipTrigger>
+                  {collapsed && (
+                    <TooltipContent
+                      side="left"
+                      className="bg-primary text-white border-slate-700"
+                    >
+                      <p>{sub.label}</p>
+                    </TooltipContent>
+                  )}
+                </Tooltip>
+              );
+            })}
+          </div>
         )}
       </div>
-
-      {!collapsed && hasSubItems && isExpanded && (
-        <div className="mt-1 bg-transparent overflow-hidden ">
-          {subItems.map((sub) => {
-            const isSubActive = activeId === sub.id;
-            const SubIcon = sub.icon;
-            return (
-              <div
-                key={sub.id}
-                onClick={() => setActiveId(sub.id)}
-                className={`
-                  group/sub flex items-center pr-4 pl-4 py-2.5 my-0.5 text-[14px] cursor-pointer  relative 
-                  ${
-                    isSubActive
-                      ? "text-white font-medium bg-white/10"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-white/10"
-                  }
-                `}
-              >
-                <SubIcon size={16} strokeWidth={2} />
-                <span className="ms-3 whitespace-nowrap">{sub.label}</span>
-              </div>
-            );
-          })}
-        </div>
-      )}
-    </div>
+    </TooltipProvider>
   );
 };
-
-const App: React.FC = () => {
+const Sidebar: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<string>("map");
   const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({
@@ -366,4 +398,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Sidebar;
