@@ -223,7 +223,7 @@ const App: React.FC = () => {
         </div>
 
         {isMobileMenuOpen && (
-          <div className="bg-primary no-scrollbar z-100 border-t border-white/5 h-svh overflow-y-auto">
+          <div className="bg-primary no-scrollbar z-100 border-t border-white/5 h-svh overflow-y-auto pb-10">
             <div className="px-4 py-4">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2 bg-white rounded-sm px-2 py-1">
