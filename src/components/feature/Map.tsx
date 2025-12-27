@@ -6,6 +6,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { Layers, Minus, Plus } from "lucide-react";
 import { useFilterProperties } from "@/app/store/useFilterProperties";
 import { GeoJSONFeatureCollection, Property } from "@/app/types/property-type";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 const MAP_STYLES = {
@@ -20,6 +22,8 @@ export default function Map() {
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapStyle, setMapStyle] = useState(MAP_STYLES.standard);
   const markersRef = useRef<mapboxgl.Marker[]>([]); // Track markers for cleanup
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+
   const filteredProperties = useFilterProperties(
     (state) => state.filteredProperties
   );
@@ -51,26 +55,8 @@ export default function Map() {
       type: "geojson",
       data: propertiesToGeoJSON(filteredProperties),
     });
-
-    map.addLayer({
-      id: "properties-layer",
-      type: "circle",
-      source: "properties",
-      paint: {
-        "circle-radius": 8,
-        "circle-color": [
-          "case",
-          ["==", ["get", "isLuxury"], true],
-          "#4f46e5",
-          "#22c55e",
-        ],
-        "circle-stroke-width": 2,
-        "circle-stroke-color": "#fff",
-      },
-    });
   };
 
-  // 1. Add this helper outside or inside your component to handle the single-color tooltip
   const createMarkerElement = (property: Property) => {
     const el = document.createElement("div");
     el.className = "property-marker";
@@ -220,24 +206,6 @@ export default function Map() {
         type: "geojson",
         data: geojson,
       });
-
-      // Add layer (circles)
-      map.current!.addLayer({
-        id: "properties-layer",
-        type: "circle",
-        source: "properties",
-        paint: {
-          "circle-radius": 8,
-          "circle-color": [
-            "case",
-            ["==", ["get", "isLuxury"], true],
-            "#4f46e5", // luxury → indigo
-            "#22c55e", // normal → green
-          ],
-          "circle-stroke-width": 2,
-          "circle-stroke-color": "#ffffff",
-        },
-      });
     });
 
     map.current!.on("mouseenter", "properties-layer", () => {
@@ -289,6 +257,9 @@ export default function Map() {
             curve: 1,
             essential: true,
           });
+        } else {
+          setShowAlert(true);
+          setTimeout(() => setShowAlert(false), 3000);
         }
       }
       if (mapLoaded) {
@@ -316,11 +287,12 @@ export default function Map() {
         ref={mapContainerRef}
         className={`h-full relative w-full`}
       />
-      <div className="absolute right-5 lg:right-80 bottom-5  z-10 flex flex-col gap-3">
+
+      <div className="absolute right-5  bottom-5  z-10 flex flex-col gap-3">
         {/* Zoom In */}
         <button
           onClick={zoomIn}
-          className="w-12 h-12 rounded-2xl bg-background shadow-[0_8px_24px_rgba(0,0,0,0.12)]
+          className="size-9 border-primary border-2 rounded-lg  bg-background shadow-[0_8px_24px_rgba(0,0,0,0.12)]
           flex items-center justify-center hover:bg-gray-50 active:scale-95 transition"
           aria-label="Zoom in"
         >
@@ -330,7 +302,7 @@ export default function Map() {
         {/* Zoom Out */}
         <button
           onClick={zoomOut}
-          className="w-12 h-12 rounded-2xl bg-background shadow-[0_8px_24px_rgba(0,0,0,0.12)]
+          className="size-9 border-primary border-2 rounded-lg  bg-background shadow-[0_8px_24px_rgba(0,0,0,0.12)]
           flex items-center justify-center hover:bg-gray-50 active:scale-95 transition"
           aria-label="Zoom out"
         >
@@ -340,13 +312,24 @@ export default function Map() {
         {/* Layers */}
         <button
           onClick={changeStyle}
-          className="w-12 h-12 rounded-2xl bg-background shadow-[0_8px_24px_rgba(0,0,0,0.12)]
+          className="size-9 border-primary border-2 rounded-lg  bg-background shadow-[0_8px_24px_rgba(0,0,0,0.12)]
           flex items-center justify-center hover:bg-gray-50 active:scale-95 transition"
           aria-label="Change map style"
         >
           <Layers className="w-6 h-6 text-primary" />
         </button>
       </div>
+      {showAlert && (
+        <Alert
+          variant="destructive"
+          className="absolute top-8 right-5 z-[100] max-w-fit shadow-lg"
+        >
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription className="text-[20px] font-bold">
+            لايوجد عقار بهذه المواصفات
+          </AlertDescription>
+        </Alert>
+      )}
       {!mapLoaded && (
         <div className="absolute end-0 bottom-0 w-full lg:h-full h-[calc(100vh-64px)] flex flex-col gap-10 items-center justify-center bg-gray-100 z-50">
           <img
