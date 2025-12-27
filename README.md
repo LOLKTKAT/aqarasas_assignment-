@@ -94,9 +94,6 @@ src/
 
 ## My Development Approach
 
-This is the Implimintation of Aqarsas Assiginment where the objective is to Create a web page using React and Mapbox, based on a provided Figma design
-<img width="1059" height="686" alt="image" src="https://github.com/user-attachments/assets/7065d60b-5519-4b91-b353-e01c10364895" />
-
 ## Objective
 StackEdit stores your files in your browser, which means all your files are automatically saved locally and are accessible **offline!**
 
@@ -138,4 +135,26 @@ The system has 4 core responsibilities:
 I will follow a feature-based branching strategy where **map**, **sidebar**, and **filter panel** are developed independently and integrated via shared state. 
 
 
+## Notes
 
+1. **Mobile navigation improvement**
+    
+    - I improved the mobile navigation menu experience compared to the one in the original website to make it more usable on small screens.
+
+2. **Frontend-only implementation (mocked data)**
+    
+    - This project is purely frontend.
+    - The property list is currently mocked locally.
+    - **Zustand** is used here to manage client-side filter state and derive `filteredProperties`.
+    - In a production setup, filtering would typically be driven by an API (and the client store would be reduced/optional).
+
+3. **Potential styling differences**
+    
+    - Some color/theme differences may exist because no official theme/design tokens were provided.
+
+4. **Performance (Lighthouse)**
+    
+    - Based on Google Lighthouse Insights, the **Performance** score is currently lower than the other categories.
+    - I plan to improve performance in a future iteration (e.g. lazy-load Mapbox / split client bundles, reduce unused JS, optimize images/assets, and defer non-critical UI work).
+
+<img width="1394" height="196" alt="image" src="https://github.com/user-attachments/assets/e31124b4-b7f3-44e1-b329-81b59ee607f8" />
