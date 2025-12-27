@@ -196,7 +196,6 @@ export default function Map() {
 
     // Set map loaded state when map finishes loading
     map.current.on("load", () => {
-      console.log("Map loaded successfully");
       setMapLoaded(true);
 
       const geojson = propertiesToGeoJSON(filteredProperties);
@@ -288,7 +287,7 @@ export default function Map() {
         className={`h-full relative w-full`}
       />
 
-      <div className="fixed right-5 bottom-5  z-10 flex flex-col gap-3">
+      <div className="absolute right-5 bottom-5  z-10 flex flex-col gap-3">
         {/* Zoom In */}
         <button
           onClick={zoomIn}

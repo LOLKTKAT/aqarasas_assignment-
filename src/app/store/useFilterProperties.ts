@@ -1,6 +1,10 @@
 import { create } from "zustand";
 import properties from "@/constans/propertiesData";
 import { Property } from "../types/property-type";
+import {
+  getMinAndMaxPropertyArea,
+  getMinAndMaxPropertyPrice,
+} from "@/lib/getMinAndMaxPropertyRanges";
 
 /* =========================
    Types
@@ -108,14 +112,17 @@ const applyFilters = (properties: Property[], filters: Filters): Property[] =>
    Store
 ========================= */
 
+const { maxPrice } = getMinAndMaxPropertyPrice();
+const { maxArea } = getMinAndMaxPropertyArea();
+
 const defaultFiltersConfig: Filters = {
   purpose: "rent",
   city: "الرياض",
   district: null, // Show all districts by default
   duration: 2700, // three months
   isRadical: false,
-  areaRange: [0, 25000], // Default: show all areas
-  priceRange: [0, 10000000], // Default: show all prices
+  areaRange: [0, maxArea], // Default: show all areas
+  priceRange: [0, maxPrice], // Default: show all prices
   dateRange: {
     from: null,
     to: null,
