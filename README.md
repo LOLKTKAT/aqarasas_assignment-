@@ -159,6 +159,6 @@ I will follow a feature-based branching strategy where **map**, **sidebar**, and
     - I plan to improve performance in a future iteration (e.g. lazy-load Mapbox / split client bundles, reduce unused JS, optimize images/assets, and defer non-critical UI work).
 <img width="1394" height="196" alt="image" src="https://github.com/user-attachments/assets/e31124b4-b7f3-44e1-b329-81b59ee607f8" />
 
-5. **Docker""
+5. **Docker**
    - Since this is a frontend-only React app deployed on Vercel, Docker isn’t required for production. However, Docker could be useful for ensuring consistent local         development environments in larger teams.
 
