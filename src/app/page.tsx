@@ -3,7 +3,7 @@ import Map from "@/components/feature/Map";
 
 const page = () => {
   return (
-    <div className="w-full ">
+    <div className="w-full relative">
       <Filter className="absolute end-1 top-1 " />
       <Map />
     </div>

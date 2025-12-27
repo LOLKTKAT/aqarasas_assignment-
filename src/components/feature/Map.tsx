@@ -348,8 +348,13 @@ export default function Map() {
         </button>
       </div>
       {!mapLoaded && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-0">
-          <p>Loading map...</p>
+        <div className="absolute end-0 bottom-0 w-full lg:h-full h-[calc(100vh-64px)] flex flex-col gap-10 items-center justify-center bg-gray-100 z-50">
+          <img
+            src="/aqarsas-logo-glyph.png"
+            alt="agarsas-logo"
+            className="w-24 h-auto animate-spin"
+          />
+          <p className="text-primary font-bold text-3xl"> يتم تحميل الخريطة</p>
         </div>
       )}
     </>
